@@ -1,0 +1,26 @@
+categories:
+- courses
+conversations:
+- - Hello.
+  - Hi, ALEC here. How are you?
+- - I am good, you say.
+  - I am doing well. How may I help you?
+- - Can I get information about courses in CSE Department?
+  - Ya sure. Ask me, I will tell you. 
+- - What are the programs in CSE Department?
+  - B.Tech, M.Tech and MCA
+- - What are the branches under B.Tech program?
+  - Computer Science & Engineering and Information Technology.
+- - What are the branches under M.Tech program?
+  - Computer Science & Engineering, Information Security and Software Engineering.
+- - What are the branches under MCA program?
+  - Not Applicable.
+- - Can I get the syllabus for B.Tech?
+  - PDF is available on MNNIT site.
+- - Can I get the syllabus for M.Tech?
+  - PDF is available on MNNIT site.
+- - Can I get the syllabus for MCA?
+  - PDF is available on MNNIT site.
+- - What are the timings of classes under CSED?
+  - 8:00am-1:00pm and 2:00pm-6:00pm.
+
