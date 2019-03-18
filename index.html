@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>ALEC</title>
+   <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   <meta charset="utf-8"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    var ws = new WebSocket("ws://localhost:8080");
+    // Close socket when window closes
+    $(window).on('beforeunload', function(){
+       ws.close();
+    });
+    ws.onerror = function(event) {
+        location.reload();
+    }
+    ws.onmessage = function(event)  { 
+        var message_received = event.data;
+        chat_add_message(message_received, false);
+    };
+    // Add a message to the chat history
+    function chat_add_message(message, isUser) {
+        var class_suffix = isUser ? '_user' : '';
+        var html = '\
+        <div class="chat_line">\
+            <div class="chat_bubble'+class_suffix+'">\
+              \
+                '+message+'\
+            </div>\
+        </div>\
+        ';
+        chat_add_html(html);
+    }
+    // Add HTML to the chat history
+    function chat_add_html(html) {
+        $("#msg-page").append(html);
+        chat_scrolldown();
+    }
+    // Scrolls the chat history to the bottom
+    function chat_scrolldown() {
+        $("#msg-page").animate({ scrollTop: $("#msg-page")[0].scrollHeight }, 500);
+    }
+    // If press ENTER, talk to chat and send message to server
+    $(function() {
+       $('#chat_input').on('keypress', function(event) {
+          if (event.which === 13 && $(this).val() != ""){
+             var message = $(this).val();
+             $(this).val("");
+             chat_add_message(message, true);
+             ws.send(message);
+          }
+       });
+    });
+</script>
+
+</head>
+<body style="background-image:('blue-rays.jpg');">
+<div class="container" style="background-color:rgb(47, 183, 201);">
+    <div class="msg-header">
+        <div class="msg-header-img">
+            
+            <image src="image\logo.jpg" style="width:40px;height:40px;"></image>
+        </div>
+            <div class="name">
+            <h2>Welcome to ALEC</h2>
+        </div>
+        <div class="header-icons">
+            <!--<i class="fa fa-commenting-o"></i>-->
+        </div>
+    </div>
+
+    <div class="chat-page">
+     <div class="msg-inbox">
+       <div class="chats">
+         <div id="msg-page">
+         </div>
+		 <div id="chat_input_container">
+			<div><input id="chat_input" /></div>
+		 </div>
+       </div>
+     </div>
+         
+    </div>
+ </div>
+
+</body>
+</html>

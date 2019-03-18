@@ -18,10 +18,10 @@ def get_response(userTxt):
     trainer= ChatterBotCorpusTrainer(bot)
     while True:
         if userTxt.strip()!='Bye':
-            result=get_response(userTxt)
+            result=bot.get_response(userTxt)
             reply=str(result)
             return(reply)
         if userTxt.strip()=='Bye':
-            return('Bye')
-            break
+            return('Bye') 
+			
 
