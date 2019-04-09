@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
@@ -22,7 +22,7 @@
     };
     // Add a message to the chat history
     function chat_add_message(message, isUser) {
-        var class_suffix = isUser ? '_user' : '';
+        var class_suffix = isUser ? '_user' : '_server';
         var html = '\
         <div class="chat_line">\
             <div class="chat_bubble'+class_suffix+'">\
@@ -53,18 +53,53 @@
           }
        });
     });
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+  ws.close();
+  location.reload();
+}
 </script>
 
 </head>
-<body style="background-image:('blue-rays.jpg');">
-<div class="container" style="background-color:rgb(47, 183, 201);">
+<body style="background-image:('background.jpg');">
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+<h1>Hello</h1><br>
+
+<button class="open-button" onclick="openForm()">CHAT</button>
+<div class="container" id="myForm" style="background-color:rgb(47, 183, 201);">
     <div class="msg-header">
         <div class="msg-header-img">
             
-            <image src="image\logo.jpg" style="width:40px;height:40px;"></image>
+           <!-- <image src="image\logo.jpg" style="width:40px;height:40px;"></image> -->
         </div>
             <div class="name">
-            <h2>Welcome to ALEC</h2>
+            <h2>ALEC</h2>
         </div>
         <div class="header-icons">
             <!--<i class="fa fa-commenting-o"></i>-->
@@ -77,13 +112,15 @@
          <div id="msg-page">
          </div>
 		 <div id="chat_input_container">
-			<div><input id="chat_input" /></div>
+			<div><input id="chat_input" autocomplete="off" /></div>
 		 </div>
        </div>
      </div>
          
-    </div>
  </div>
+ <button type="button" class="btn-cancel" onclick="closeForm()">Close</button>
+</div>
+
 
 </body>
 </html>

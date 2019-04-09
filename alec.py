@@ -17,11 +17,14 @@ def get_response(userTxt):
     trainer='chatterbot.trainers.ChatterBotCorpusTrainer')
     trainer= ChatterBotCorpusTrainer(bot)
     while True:
+        if userTxt.strip()=='Notice':
+            return('Please follow the following link : <br><a href="http://localhost/icgge/" target="_blank">Notice Board</a>')
         if userTxt.strip()!='Bye':
             result=bot.get_response(userTxt)
             reply=str(result)
             return(reply)
         if userTxt.strip()=='Bye':
             return('Bye') 
+		
 			
 
