@@ -11,8 +11,7 @@ def setup():
         {
             'import_path':'chatterbot.logic.BestMatch',
             'default_response':'I am sorry, but I do not understand',
-            'maximum_similarity_threshold':0.70,
-            'response_selection_method':get_random_response
+            'maximum_similarity_threshold':0.70
         }
     ],
     trainer='chatterbot.trainers.ChatterBotCorpusTrainer')

@@ -1,3 +1,119 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ <?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "query";
+
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// Check connection
+if (!$conn) 
+{
+    die("Connection failed: " . mysqli_connect_error());
+}
+session_start();
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+// username and password sent from form 
+$query = $_POST['query'];
+$email = $_POST['email']; 
+$sql="Insert into queries values('".$query."','".$email."','".date("Y-m-d")."',0,0)";
+mysqli_query($conn,$sql);
+
+}
+ ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>ALEC</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+   <meta charset="utf-8"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    var ws = new WebSocket("ws://localhost:8080");
+    // Close socket when window closes
+    $(window).on('beforeunload', function(){
+       ws.close();
+    });
+    ws.onerror = function(event) {
+        location.reload();
+    }
+    ws.onmessage = function(event)  { 
+        var message_received = event.data;
+        chat_add_message(message_received, false);
+    };
+    // Add a message to the chat history
+    function chat_add_message(message, isUser) {
+        var class_suffix = isUser ? '_user' : '_server';
+        var html = '\
+        <div class="chat_line">\
+            <div class="chat_bubble'+class_suffix+'">\
+              \
+                '+message+'\
+            </div>\
+        </div>\
+        ';
+        chat_add_html(html);
+    }
+    // Add HTML to the chat history
+    function chat_add_html(html) {
+        $("#msg-page").append(html);
+        chat_scrolldown();
+    }
+    // Scrolls the chat history to the bottom
+    function chat_scrolldown() {
+        $("#msg-page").animate({ scrollTop: $("#msg-page")[0].scrollHeight }, 500);
+    }
+    // If press ENTER, talk to chat and send message to server
+    $(function() {
+       $('#chat_input').on('keypress', function(event) {
+          if (event.which === 13 && $(this).val() != ""){
+             var message = $(this).val();
+             $(this).val("");
+             chat_add_message(message, true);
+             ws.send(message);
+          }
+       });
+    });
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+  ws.close();
+  location.reload();
+}
+function submitquery(){
+	var html = '\
+        <div style="width:95%;border-radius:10px 10px 10px 0px;" class="chat_line">\
+            <div style="width:95%;" class="chat_bubble_server">\
+              <form name="f1" method="POST" action="" target="frame" onsubmit="displaymsg()">\
+				Enter your query <br><textarea name="query" autocomplete="off" style="width:200px;height:30px;" required></textarea><br>\
+				Enter your mail id <br><input type="email" name="email" style="width:200px;" autocomplete="off" required /><br><br>\
+				<input type="submit" value="Submit" style=" background-color:#234b9b;border:none;color:white;padding:5px 10px;text-align:center;text-decoration:none;display:inline-block;font-size:10px;margin-bottom:2px;"/>\
+			  </form>\
+            </div>\
+        </div>\
+        ';
+    chat_add_html(html);
+}
+function displaymsg(){
+	var html = '\
+        <div class="chat_line">\
+            <div class="chat_bubble_server">\
+				Your query has been submitted\
+            </div>\
+        </div>\
+        ';
+    chat_add_html(html);
+}
+
+</script>
+<style type="text/css">
+iframe{
+	display:none;
+}
 body {
     background-image: url("background.jpg");
 	font-family: Helvetica;
@@ -386,3 +502,77 @@ ul li.active a{
 	color: #fff;
 	font-size: 70px;
 }
+
+</style>
+</head>
+<body>
+<header>
+		<div class="main">
+			<div class="logo">
+				<img src="logonew.png">
+			</div>
+			<ul>
+				<li class="active"><a href="#">Home</a></li>
+				<li><a href="#">About</a></li>
+				<li><a href="#">Events</a></li>
+				<li><a href="#">Gallery</a></li>
+				<li><a href="#">Contacts</a></li>
+			</ul>
+		</div>
+
+		<div class="title">
+			<h1>CSED Website</h1>
+		</div>
+	</header>
+
+<button class="open-button" onclick="openForm()">CHAT</button>
+<div class="container" id="myForm" style="background-color:rgb(47, 183, 201);">
+    <div class="msg-header">
+        <div class="msg-header-img">
+            
+           <!-- <image src="image\logo.jpg" style="width:40px;height:40px;"></image> -->
+        </div>
+            <div class="name">
+            <h2>ALEC</h2>
+        </div>
+        <div class="header-icons">
+            <!--<i class="fa fa-commenting-o"></i>-->
+        </div>
+    </div>
+
+    <div class="chat-page">
+     <div class="msg-inbox">
+       <div class="chats">
+         <div id="msg-page">
+		 <div class="chat_line">
+            <div class="chat_bubble_server">
+              Hi! ALEC here
+            </div>
+        </div>
+		<div class="chat_line">
+            <div class="chat_bubble_server">
+              You can ask me any question related to CSED
+            </div>
+        </div>
+		<div class="chat_line">
+            <div class="chat_bubble_server">
+              or you can submit your query using the 'Any Query' button below
+            </div>
+        </div>
+         </div>
+		 <div id="chat_input_container">
+			<div><input id="chat_input" autocomplete="off" /></div>
+		 </div>
+		 <button onclick="submitquery()" style=" background-color:#234b9b;border:none;color:white;padding:5px 10px;text-align:center;text-decoration:none;display:inline-block;font-size:10px;margin-bottom:2px;">
+		 Any Query</button>
+       </div>
+     </div>
+         
+ </div>
+ <button type="button" class="btn-cancel" onclick="closeForm()">Close</button>
+</div>
+<iframe name="frame">
+</iframe>
+
+</body>
+</html>
